@@ -38,29 +38,22 @@ rl.on("line", line => {
     }
   }
 
-  let mostSleepy = null;
-  let mostSleepyCount = null;
-
-  for (const [guard, times] of Object.entries(scheduleMap)) {
-    const reduced = times.reduce((acc, reducer) => acc + reducer);
-    if (reduced > mostSleepyCount) {
-      mostSleepy = guard;
-      mostSleepyCount = reduced;
-    }
-  }
-
   let sleepiestMinute = null;
   let sleepiestMinuteIndex = null;
+  let sleepiestGuard = null;
 
-  for (let i = 0; i < scheduleMap[mostSleepy].length; i++) {
-    if (scheduleMap[mostSleepy][i] > sleepiestMinute) {
-      sleepiestMinute = scheduleMap[mostSleepy][i];
-      sleepiestMinuteIndex = i;
+  for (const [guard, times] of Object.entries(scheduleMap)) {
+    for (let i = 0; i < times.length; i++) {
+      if (times[i] > sleepiestMinute) {
+        sleepiestMinute = times[i];
+        sleepiestMinuteIndex = i;
+        sleepiestGuard = guard;
+      }
     }
   }
 
   console.log(
-    `Most sleepy: ${mostSleepy}\nSleepiest time: ${sleepiestMinuteIndex}\nTotal: ${mostSleepy *
-      sleepiestMinuteIndex}`
+    `Sleepiest minute: ${sleepiestMinuteIndex}\nSleepiest guard: ${sleepiestGuard}\nTotal: ${sleepiestGuard *
+      sleepiestMinuteIndex}\n`
   );
 });
